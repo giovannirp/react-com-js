@@ -1,10 +1,12 @@
-import React from 'react'
-import Banner from '../../Components/Banner'
-import Titulo from '../../Components/Titulo'
+import React from "react";
+import Banner from "../../Components/Banner";
+import Titulo from "../../Components/Titulo";
 import styles from "./Favoritos.module.css";
-import Card from '../../Components/Card';
+import Card from "../../Components/Card";
+import { useFavoritoContext } from "../../Contextos/Favoritos";
 
 export default function Favoritos() {
+  const { favorito } = useFavoritoContext();
   return (
     <>
       <Banner imagem="favoritos" />
@@ -12,8 +14,10 @@ export default function Favoritos() {
         <h1>Meus Favoritos</h1>
       </Titulo>
       <section className={styles.container}>
-        <Card id="1" titulo="Gato bonifácio" capa="https://inovaveterinaria.com.br/wp-content/uploads/2015/04/gato-sem-raca-INOVA-scaled.jpg" />
+        {favorito.map((fav) => {
+          return <Card {...fav} key={fav.id} />
+        })}
       </section>
     </>
-  )
+  );
 }
