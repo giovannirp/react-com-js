@@ -4,6 +4,7 @@ import Titulo from "../../Components/Titulo";
 import videos from "../../json/db.json";
 import { useParams } from 'react-router-dom';
 import styles from "./Player.module.css";
+import NaoEcontrada from "../NaoEncontrada";
 
 export default function index() {
   const parametros = useParams();
@@ -11,7 +12,9 @@ export default function index() {
     return video.id === Number(parametros.id);
   });
 
-  console.log(video);
+  if (!video) {
+    return <NaoEcontrada />
+  }
 
   return (
     <>
