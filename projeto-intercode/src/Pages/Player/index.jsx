@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "../../Components/Banner";
 import Titulo from "../../Components/Titulo";
-import videos from "../../json/db.json";
 import { useParams } from 'react-router-dom';
 import styles from "./Player.module.css";
 import NaoEcontrada from "../NaoEncontrada";
 
 export default function index() {
+  const [videos, setVideos] = useState([]);
   const parametros = useParams();
-  const video = videos.find((video) => {
-    return video.id === Number(parametros.id);
-  });
 
-  if (!video) {
+  useEffect(() => {
+    fetch(`https://my-json-server.typicode.com/giovannirp/cinetag-api/Videos?id=${parametros.id}`)
+    .then(resposta => resposta.json())
+    .then(dados => {
+      setVideos(...dados)
+    })
+  }, [])
+
+
+  if (!videos) {
     return <NaoEcontrada />
   }
 
@@ -26,14 +32,14 @@ export default function index() {
         <iframe
             width="560"
             height="315"
-            src={video.link}
-            title={video.titulo}
+            src={videos.link}
+            title={videos.titulo}
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
         ></iframe>
-        <h2>{video.titulo}</h2>
+        <h2>{videos.titulo}</h2>
       </section>
 
     </>
